@@ -18,6 +18,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "sass": "^1.83.4"
+        "bootstrap": "^5.3.3",
+        "sass": "^1.83.4",
+        "sass-loader": "^16.0.4"
     }
 }

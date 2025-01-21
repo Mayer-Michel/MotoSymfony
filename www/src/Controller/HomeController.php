@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Bike;
 use App\Repository\BikeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,11 +21,13 @@ class HomeController extends AbstractController
     {
          //on va déclarer une variable
          $title = "Nos Motos";
+
          //on recupère les datas de tous les jeux
-         $bikes = $bikeRepository->findAll();
+         $bike = $bikeRepository->getBikeWithInfo();
+
         return $this->render('home/index.html.twig', [
             'title' => $title,
-            'bikes' => $bikes
+            'bikes' => $bike
         ]);
     }
 }

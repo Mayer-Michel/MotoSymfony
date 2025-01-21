@@ -1,10 +1,10 @@
 <div class="game-card">
-	<img src="{{asset('images/moto/' ~ bike.imagePath)}}" alt="{{bike.model_id}}" class="game-image">
+	<img src="{{asset('images/moto/' ~ bike.imagePath)}}" alt="{{bike.modelName}}" class="game-image">
 	<div class="game-info">
-		<h2 class="game-title">{{bike.model_id}}</h2>
+		<h2 class="game-title">{{bike.modelName}}</h2>
 		<div class="game-info-container">
 			<p class="game-price">{{(bike.price/100)|number_format}}</p>
-			<a href="{{path('app_detail', {'id': bike.id})}}" class="btn btn-detail">Voir détail</a>
+			<a href="#" class="btn btn-detail">Voir détail</a>
 			{# <a href="{{'/detail/' ~ game.id}}" class="btn btn-detail">Voir détail</a> #}
 		</div>
 	</div>

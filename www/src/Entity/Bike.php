@@ -26,18 +26,18 @@ class Bike
     private ?int $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'bikes')]
-    private ?model $model_id = null;
+    private ?Model $model_id = null;
 
     #[ORM\ManyToOne(inversedBy: 'bikes')]
-    private ?brand $brand_id = null;
+    private ?Brand $brand_id = null;
 
     #[ORM\ManyToOne(inversedBy: 'bikes')]
-    private ?cylenders $cylenders_id = null;
+    private ?Cylenders $cylenders_id = null;
 
     /**
      * @var Collection<int, places>
      */
-    #[ORM\ManyToMany(targetEntity: places::class, inversedBy: 'bikes')]
+    #[ORM\ManyToMany(targetEntity: Places::class, inversedBy: 'bikes')]
     private Collection $places;
 
     /**
@@ -93,36 +93,36 @@ class Bike
         return $this;
     }
 
-    public function getModelId(): ?model
+    public function getModelId(): ?Model
     {
         return $this->model_id;
     }
 
-    public function setModelId(?model $model_id): static
+    public function setModelId(?Model $model_id): static
     {
         $this->model_id = $model_id;
 
         return $this;
     }
 
-    public function getBrandId(): ?brand
+    public function getBrandId(): ?Brand
     {
         return $this->brand_id;
     }
 
-    public function setBrandId(?brand $brand_id): static
+    public function setBrandId(?Brand $brand_id): static
     {
         $this->brand_id = $brand_id;
 
         return $this;
     }
 
-    public function getCylendersId(): ?cylenders
+    public function getCylendersId(): ?Cylenders
     {
         return $this->cylenders_id;
     }
 
-    public function setCylendersId(?cylenders $cylenders_id): static
+    public function setCylendersId(?Cylenders $cylenders_id): static
     {
         $this->cylenders_id = $cylenders_id;
 
@@ -137,7 +137,7 @@ class Bike
         return $this->places;
     }
 
-    public function addPlace(places $place): static
+    public function addPlace(Places $place): static
     {
         if (!$this->places->contains($place)) {
             $this->places->add($place);
@@ -146,7 +146,7 @@ class Bike
         return $this;
     }
 
-    public function removePlace(places $place): static
+    public function removePlace(Places $place): static
     {
         $this->places->removeElement($place);
 
