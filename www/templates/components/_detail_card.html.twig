@@ -1,0 +1,30 @@
+<div class="game-detail-card">
+
+{% for images in images %}
+	<div class="game-detail-image">
+		<img src="{{asset('images/moto/' ~ images.imagePath)}}">
+	</div>
+	
+{% endfor %}
+		{% for bike in bike %}
+			{% set date = bike.releaseDate|date('d/m/Y') %}
+			<div class="game-detail-content">
+				<h1 class="game-title">{{bike.brandName}}</h1>
+			</div>
+			<div class="game-detail-content">
+				<h2 class="game-title">{{bike.modelName}}</h2>
+			</div>
+
+			<div class="game-info-detail mb-4">
+			<div class="info-item">
+				<span class="info-label">Date de sortie:</span>
+				<span class="info-value">{{date}}</span>
+			</div>
+			<div class="game-synopsis mb-4">
+				<h2>Synopsis</h2>
+				<p>{{bike.description}}</p>
+				<p>{{bike.price}}</p>
+			</div>
+
+		{% endfor %}
+</div>

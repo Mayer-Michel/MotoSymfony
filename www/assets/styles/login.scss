@@ -1,6 +1,5 @@
 @import "reset";
-@import "_mixins";
-@import "_placeholders";
+@import "_mixin";
 
 $form-bg: lighten($primary-bg, 5%);
 $input-bg: lighten($primary-bg, 10%);

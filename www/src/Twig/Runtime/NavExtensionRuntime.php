@@ -15,12 +15,13 @@ class NavExtensionRuntime implements RuntimeExtensionInterface
        $this->bikeRepository = $bikeRepository;
     }
 
-    public function menuItems()
+    public function menuBrand()
     {
         return $this->bikeRepository->getCountBikeByBrand();
+        
     }
 
-    public function menuItemsAge()
+    public function menuCylenders()
     {
         return $this->bikeRepository->getCountBikeByCylenders();
     }

@@ -9,7 +9,7 @@
 		{# logo du site #}
 		<div>
 			<a href="{{path('app_home')}}" class="navbar-brand">
-				<img src="/images/logo2.png" alt="logo du site">
+				{# <img src="/images/logo2.png" alt="logo du site"> #}
 			</a>
 
 		</div>
@@ -17,31 +17,30 @@
 		<div class="collapse navbar-collapse" id="navbarNavDropdown">
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a class="nav-link active" href="{{path('app_home')}}">Accueil</a>
+					<a class="nav-link active" href="#">Accueil</a>
 				</li>
 				<li class="nav-item dropdown">
-					<a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Par console</a>
+					<a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Par Marque</a>
 					<ul
 						class="dropdown-menu">
 						{# on recupere ici notre fonction twig pour recuperer les consoles #}
-						{% for nav in menu_items() %}
+						{% for nav in menu_brand() %}
 							<li>
-								<a href="{{ path('app_console', {'id': nav.id}) }}" class="dropdown-item">{{nav.label}}
-									({{nav.total}})</a>
+								<a href="{{path('app_brand', {'id': nav.id})}}" class="dropdown-item">{{nav.brandName}}
+									({{nav.nbr}})</a>
 							</li>
 						{% endfor %}
 					</ul>
 				</li>
 				<li class="nav-item dropdown">
-					<a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Par Age</a>
+					<a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Par cylenders</a>
 					<ul
 						class="dropdown-menu">
-						{# on recupere ici notre fonction twig pour recuperer les consoles #}
-						{% for age in menu_items_age() %}
+						{# on recupere ici notre fonction twig pour recuperer les cylenders #}
+						{% for cylenders in menu_cylenders() %}
 							<li>
-								<a href="{{ path('app_age', {'id': age.id}) }}" class="dropdown-item">
-									<img src="/images/pegi/{{age.imagePath}}" alt="logo du pegi" class="m-1" style="height:30px; width:auto;object-fit:contain;">
-									{{age.label}}+ ({{age.total}})
+								<a href="#" class="dropdown-item">
+									{{cylenders.CC}} + ({{cylenders.nbr}})
 								</a>
 							</li>
 						{% endfor %}
@@ -54,7 +53,7 @@
 						{# on recupere ici notre fonction twig pour recuperer les consoles #}
 						{% for filter in filters_items() %}
 							<li>
-								<a href="{{ path('app_filter', {'field': filter.filter}) }}" class="dropdown-item">
+								<a href="#" class="dropdown-item">
 									{{filter.label}}
 									<i class="{{filter.icon}}"></i>
 								</a>
@@ -73,12 +72,12 @@
 			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 				{% if app.user %}
 					{% if is_granted('ROLE_ADMIN') %}
-						<a class="dropdown-item" href="{{path('app_admin_dashboard')}}">Dashboard</a>
+						<a class="dropdown-item" href="#">Dashboard</a>
 
 					{% endif %}
-					<a class="dropdown-item" href="{{path('app_logout')}}">Déconnexion</a>
+					<a class="dropdown-item" href="#">Déconnexion</a>
 				{% else %}
-					<a class="dropdown-item" href="{{path('app_login')}}">Connexion</a>
+					<a class="dropdown-item" href="#">Connexion</a>
 				{% endif %}
 
 
