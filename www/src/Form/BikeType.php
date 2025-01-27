@@ -6,7 +6,7 @@ use App\Entity\Bike;
 use App\Entity\Brand;
 use App\Entity\Cylenders;
 use App\Entity\Model;
-use App\Entity\Places;
+use App\Entity\places;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,7 +35,7 @@ class BikeType extends AbstractType
                 'choice_label' => 'id',
             ])
             ->add('places', EntityType::class, [
-                'class' => Places::class,
+                'class' => places::class,
                 'choice_label' => 'id',
                 'multiple' => true,
             ])

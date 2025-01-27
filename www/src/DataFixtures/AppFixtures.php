@@ -4,10 +4,9 @@ namespace App\DataFixtures;
 
 use App\Entity\Bike;
 use App\Entity\Brand;
-use App\Entity\Cylenders;
-use App\Entity\Image;
+use App\Entity\Cylender;
 use App\Entity\Model;
-use App\Entity\Places;
+use App\Entity\Place;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -18,6 +17,7 @@ class AppFixtures extends Fixture
 
     // propriété pour encoder le MDP
     private $encoder;
+
     public function __construct(UserPasswordHasherInterface $encoder)
     {
         $this->encoder = $encoder;
@@ -26,12 +26,11 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $this->loadUsers($manager);
-        $this->loadPlaces($manager);
         $this->loadCylenders($manager);
         $this->loadModel($manager);
         $this->loadBrand($manager);
         $this->loadBike($manager);
-        $this->loadImage($manager);
+        $this->loadPlaces($manager);
 
         $manager->flush();
     }
@@ -48,13 +47,11 @@ class AppFixtures extends Fixture
             [                'email' => 'admin@admin.com', 
                 'password'=>'admin',
                 'roles' => ['ROLE_ADMIN'],
-                'username' => 'administrateur'
             ],
             [
                 'email' => 'user@user.com',
                 'password' => 'user',
                 'roles' => ['ROLE_USER'],
-                'username' => 'utilisateur'
             ]
         ];
 
@@ -66,7 +63,6 @@ class AppFixtures extends Fixture
             $user->setEmail($value['email']);
             $user->setPassword($this->encoder->hashPassword($user, $value['password']));
             $user->setRoles($value['roles']);
-            $user->setUsername($value['username']);
             //on persiste les données
             $manager->persist($user);
         }
@@ -129,12 +125,33 @@ class AppFixtures extends Fixture
         foreach($array_cylenders as $key => $value)
         {
             //on instancie un cylenders
-            $cylenders = new Cylenders();
-            $cylenders->setCC($value);
+            $cylenders = new Cylender();
+            $cylenders->setCylenders($value);
             //on persiste les données
             $manager->persist($cylenders);
             // on ajoute une référence pour pouvoir l'utiliser dans une autre entité
             $this->addReference('cylenders_'.$key + 1, $cylenders);
+        }
+    }
+    /**
+     * méthode pour générer des places
+     * @param ObjectManager $manager
+     * @return void
+     */
+    public function loadPlaces(ObjectManager $manager): void
+    {
+        $array_nbr = ['4', '3', '2', '1'];
+        
+        // on boucle sur le tableau pour créer les cylenders
+        foreach($array_nbr as $key => $value)
+        {
+            //on instancie un cylenders
+            $nbr = new Place();
+            $nbr->setNbr($value);
+            //on persiste les données
+            $manager->persist($nbr);
+            // on ajoute une référence pour pouvoir l'utiliser dans une autre entité
+            $this->addReference('nbr_' . $key + 1, $nbr);
         }
     }
 
@@ -148,52 +165,58 @@ class AppFixtures extends Fixture
         $array_bike = [
             ['releaseDate' => new \DateTime ('2019-05-02'),
             'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitisoptio recusandae doloribus. Quod explicabo ratione itaque voluptate tempora eamaiores debitis, molestiae, accusantium id voluptatem officia consequatur eligendidolorem quo.',
+            'image' => 'image1.jpg',
             'price' => 2000000,
-            'model_id' => 1,
-            'brand_id' => 1,
-            'cylenders_id' => 1,
-            'places' => [1]
+            'model' => 1,
+            'brand' => 1,
+            'cylender' => 1,
+            'place' => 1,
         ],
         ['releaseDate' => new \DateTime ('2020-05-02'),
             'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitisoptio recusandae doloribus. Quod explicabo ratione itaque voluptate tempora eamaiores debitis, molestiae, accusantium id voluptatem officia consequatur eligendidolorem quo.',
-            'price' => 2000000,
-            'model_id' => 2,
-            'brand_id' => 2,
-            'cylenders_id' => 2,
-            'places' => [2]
+            'image' => 'image2.jpg',
+            'price' => 2200000,
+            'model' => 2,
+            'brand' => 2,
+            'cylender' => 2,
+            'place' => 2,
         ],
 
         ['releaseDate' => new \DateTime ('2021-05-02'),
             'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitisoptio recusandae doloribus. Quod explicabo ratione itaque voluptate tempora eamaiores debitis, molestiae, accusantium id voluptatem officia consequatur eligendidolorem quo.',
-            'price' => 2000000,
-            'model_id' => 3,
-            'brand_id' => 3,
-            'cylenders_id' => 3,
-            'places' => [3]
+            'image' => 'image3.jpg',
+            'price' => 2300000,
+            'model' => 3,
+            'brand' => 3,
+            'cylender' => 3,
+            'place' => 3,
         ],
         ['releaseDate' => new \DateTime ('2022-05-02'),
             'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitisoptio recusandae doloribus. Quod explicabo ratione itaque voluptate tempora eamaiores debitis, molestiae, accusantium id voluptatem officia consequatur eligendidolorem quo.',
-            'price' => 2000000,
-            'model_id' => 4,
-            'brand_id' => 4,
-            'cylenders_id' => 4,
-            'places' => [4]
+            'image' => 'image4.jpg',
+            'price' => 2400000,
+            'model' => 4,
+            'brand' => 4,
+            'cylender' => 4,
+            'place' => 4,
         ],
         ['releaseDate' => new \DateTime ('2023-05-02'),
             'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitisoptio recusandae doloribus. Quod explicabo ratione itaque voluptate tempora eamaiores debitis, molestiae, accusantium id voluptatem officia consequatur eligendidolorem quo.',
-            'price' => 2000000,
-            'model_id' => 5,
-            'brand_id' => 5,
-            'cylenders_id' => 5,
-            'places' => [5]
+            'image' => 'image5.jpg',
+            'price' => 2500000,
+            'model' => 5,
+            'brand' => 5,
+            'cylender' => 5,
+            'place' => 2,
         ],
         ['releaseDate' => new \DateTime ('2024-05-02'),
             'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitisoptio recusandae doloribus. Quod explicabo ratione itaque voluptate tempora eamaiores debitis, molestiae, accusantium id voluptatem officia consequatur eligendidolorem quo.',
-            'price' => 2000000,
-            'model_id' => 6,
-            'brand_id' => 6,
-            'cylenders_id' => 6,
-            'places' => [6]
+            'image' => 'image6.jpg',
+            'price' => 2600000,
+            'model' => 6,
+            'brand' => 6,
+            'cylender' => 6,
+            'place' => 3,
         ],
             
         ];
@@ -204,16 +227,12 @@ class AppFixtures extends Fixture
             $bike = new Bike();
             $bike->setReleaseDate($value['releaseDate']);
             $bike->setDescription($value['description']);
+            $bike->setImage($value['image']);
             $bike->setPrice($value['price']);
-            $bike->setModelId($this->getReference('model_' . $value['model_id'], Model::class));
-            $bike->setBrandId($this->getReference('brand_' . $value['brand_id'], Brand::class));
-            $bike->setCylendersId($this->getReference('cylenders_' . $value['cylenders_id'], Cylenders::class));
-
-            
-            //on va devoir boucler sur $value['places'] pour faire les relations du many to many
-            foreach($value['places'] as $place){
-                $bike->addPlace($this->getReference('places_'.$place, Places::class));
-
+            $bike->setModel($this->getReference('model_' . $value['model'], Model::class));
+            $bike->setBrand($this->getReference('brand_' . $value['brand'], Brand::class));
+            $bike->setCylender($this->getReference('cylenders_' . $value['cylender'], Cylender::class));
+            $bike->setPlace($this->getReference('nbr_' . $value['place'], Place::class));
             };
             
             
@@ -224,56 +243,3 @@ class AppFixtures extends Fixture
         }
     }
 
-    /**
-     * méthode pour générer des images
-     * @param ObjectManager $manager
-     * @return void
-     */
-    public function loadImage(ObjectManager $manager): void
-    {
-        $array_image = [
-            ['imagePath' => 'image1.jpg',
-            'bike_id' => '1'], 
-            ['imagePath' =>'image2.jpg',
-            'bike_id' => '2'],
-            ['imagePath' =>'image3.jpg',
-            'bike_id' => '3'],
-            ['imagePath' =>'image4.jpg',
-            'bike_id' => '4'],
-            ['imagePath' =>'image5.jpg',
-            'bike_id' => '5'],
-            ['imagePath' =>'image6.jpg',
-            'bike_id' => '6']
-        ];
-        // on boucle sur le tableau pour créer les images
-        foreach($array_image as $key => $value)
-        {
-            //on instancie un image
-            $image = new Image();
-            $image->setImagePath($value['imagePath']);
-            $image->setBikeId($this->getReference('bike_' . $value['bike_id'], Bike::class));
-            //on persiste les données
-            $manager->persist($image);
-            // on ajoute une référence pour pouvoir l'utiliser dans une autre entité
-            $this->addReference('image_'.$key + 1, $image);
-        }
-    }
-
-
-    public function loadPlaces(ObjectManager $manager)
-    {
-        $array_places = [1,2,3,4,5,6];
-        
-        // on boucle sur le tableau pour créer les places
-        foreach($array_places as $key => $value)
-        {
-            //on instancie un place
-            $place = new Places();
-            $place->setNbr($value);
-            //on persiste les données
-            $manager->persist($place);
-            // on ajoute une référence pour pouvoir l'utiliser dans une autre entité
-            $this->addReference('places_'.$key + 1, $place);
-        }
-    }
-}

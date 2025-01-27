@@ -15,13 +15,13 @@ class Model
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 25)]
+    #[ORM\Column(length: 100)]
     private ?string $modelName = null;
 
     /**
      * @var Collection<int, Bike>
      */
-    #[ORM\OneToMany(targetEntity: Bike::class, mappedBy: 'model_id')]
+    #[ORM\OneToMany(targetEntity: Bike::class, mappedBy: 'model')]
     private Collection $bikes;
 
     public function __construct()
@@ -58,7 +58,7 @@ class Model
     {
         if (!$this->bikes->contains($bike)) {
             $this->bikes->add($bike);
-            $bike->setModelId($this);
+            $bike->setModel($this);
         }
 
         return $this;
@@ -68,8 +68,8 @@ class Model
     {
         if ($this->bikes->removeElement($bike)) {
             // set the owning side to null (unless already changed)
-            if ($bike->getModelId() === $this) {
-                $bike->setModelId(null);
+            if ($bike->getModel() === $this) {
+                $bike->setModel(null);
             }
         }
 

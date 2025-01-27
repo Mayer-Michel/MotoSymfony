@@ -15,13 +15,13 @@ class Brand
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 25)]
+    #[ORM\Column(length: 100)]
     private ?string $brandName = null;
 
     /**
      * @var Collection<int, Bike>
      */
-    #[ORM\OneToMany(targetEntity: Bike::class, mappedBy: 'brand_id')]
+    #[ORM\OneToMany(targetEntity: Bike::class, mappedBy: 'brand')]
     private Collection $bikes;
 
     public function __construct()
@@ -58,7 +58,7 @@ class Brand
     {
         if (!$this->bikes->contains($bike)) {
             $this->bikes->add($bike);
-            $bike->setBrandId($this);
+            $bike->setBrand($this);
         }
 
         return $this;
@@ -68,8 +68,8 @@ class Brand
     {
         if ($this->bikes->removeElement($bike)) {
             // set the owning side to null (unless already changed)
-            if ($bike->getBrandId() === $this) {
-                $bike->setBrandId(null);
+            if ($bike->getBrand() === $this) {
+                $bike->setBrand(null);
             }
         }
 

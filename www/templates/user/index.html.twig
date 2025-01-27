@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index
+{% endblock %}
+
+{% block body %}
+	<div class="game-list-container">
+		{% include "components/_dashboard_button.html.twig" %}
+
+		<h1>Gestion des utilisateurs</h1>
+		<a href="{{ path('app_user_new') }}" class="add-game-btn">Ajouter un utilisateur</a>
+
+		{% include "components/_table_user.html.twig" with {
+            'title': 'Administrateurs',
+            'users': roleAdmin
+        } %}
+
+		{% include "components/_table_user.html.twig" with {
+            'title': 'Utilisateurs',
+            'users': roleUser
+        } %}
+
+		<a href="{{ path('app_user_new') }}" class="add-game-btn">Ajouter un utilisateur</a>
+
+	</div>
+{% endblock %}

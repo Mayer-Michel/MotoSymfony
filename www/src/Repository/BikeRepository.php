@@ -33,29 +33,10 @@ class BikeRepository extends ServiceEntityRepository
             'b.price',
             'm.modelName',
             'br.brandName',
-            'i.imagePath',
+            'b.image',
         ])->from(Bike::class, 'b')
-        ->join('b.model_id', 'm')
-        ->join('b.brand_id', 'br')
-        ->join('b.images', 'i')
-        ->getQuery();
-
-        return $query->getResult();
-    }
-
-    public function getImagesByBike(int $id)
-    {
-        $entityManager = $this->getEntityManager();
-
-        $qb = $entityManager->createQueryBuilder();
-
-        $query = $qb->select([
-            'b.id',
-            'i.imagePath'
-        ])->from(Bike::class, 'b')
-        ->join('b.images', 'i')
-        ->where('b.id = :id')
-        ->setParameter('id', $id)
+        ->join('b.model', 'm')
+        ->join('b.brand', 'br')
         ->getQuery();
 
         return $query->getResult();
@@ -76,7 +57,7 @@ class BikeRepository extends ServiceEntityRepository
             'br.brandName',
             'COUNT(b.id) as nbr'
         ])->from(Bike::class, 'b')
-        ->join('b.brand_id', 'br')
+        ->join('b.brand', 'br')
         ->groupBy('br.id')
         ->getQuery();
 
@@ -95,10 +76,10 @@ class BikeRepository extends ServiceEntityRepository
 
         $query = $qb->select([
             'c.id',
-            'c.CC',
+            'c.cylenders',
             'COUNT(b.id) as nbr'
         ])->from(Bike::class, 'b')
-        ->join('b.cylenders_id', 'c')
+        ->join('b.cylender', 'c')
         ->groupBy('c.id')
         ->getQuery();
 
@@ -123,11 +104,11 @@ class BikeRepository extends ServiceEntityRepository
             'b.price',
             'br.brandName',
             'm.modelName',
-            'c.CC'
+            'c.cylenders'
             ])->from(Bike::class, 'b')
-            ->join('b.brand_id', 'br')
-            ->join('b.model_id', 'm')
-            ->join('b.cylenders_id', 'c')
+            ->join('b.brand', 'br')
+            ->join('b.model', 'm')
+            ->join('b.cylender', 'c')
             ->where('br.id = :id')
             ->setParameter('id', $id)
             ->getQuery();
@@ -153,11 +134,11 @@ class BikeRepository extends ServiceEntityRepository
             'b.price',
             'br.brandName',
             'm.modelName',
-            'c.CC',
+            'c.cylender',
         ])->from(Bike::class, 'b')
-        ->join('b.brand_id', 'br')
-        ->join('b.model_id', 'm')
-        ->join('b.cylenders_id', 'c')
+        ->join('b.brand', 'br')
+        ->join('b.model', 'm')
+        ->join('b.cylender', 'c')
         ->where('b.id = :id')
         ->setParameter('id', $id)
         ->getQuery();

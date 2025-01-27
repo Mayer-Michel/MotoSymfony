@@ -6,7 +6,7 @@
 	</div>
 	
 {% endfor %}
-		{% for bike in bike %}
+		{% for bike in bikes %}
 			{% set date = bike.releaseDate|date('d/m/Y') %}
 			<div class="game-detail-content">
 				<h1 class="game-title">{{bike.brandName}}</h1>

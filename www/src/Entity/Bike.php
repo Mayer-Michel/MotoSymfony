@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\BikeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,38 +17,32 @@ class Bike
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $releaseDate = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column]
     private ?int $price = null;
 
-    #[ORM\ManyToOne(inversedBy: 'bikes')]
-    private ?Model $model_id = null;
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
 
     #[ORM\ManyToOne(inversedBy: 'bikes')]
-    private ?Brand $brand_id = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Model $model = null;
 
     #[ORM\ManyToOne(inversedBy: 'bikes')]
-    private ?Cylenders $cylenders_id = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Brand $brand = null;
 
-    /**
-     * @var Collection<int, places>
-     */
-    #[ORM\ManyToMany(targetEntity: Places::class, inversedBy: 'bikes')]
-    private Collection $places;
+    #[ORM\ManyToOne(inversedBy: 'bikes')]
+    private ?Type $type = null;
 
-    /**
-     * @var Collection<int, Image>
-     */
-    #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'bike_id')]
-    private Collection $images;
+    #[ORM\ManyToOne(inversedBy: 'bikes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Cylender $cylender = null;
 
-    public function __construct()
-    {
-        $this->places = new ArrayCollection();
-        $this->images = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'bikes')]
+    private ?Place $place = null;
 
     public function getId(): ?int
     {
@@ -74,7 +66,7 @@ class Bike
         return $this->description;
     }
 
-    public function setDescription(string $description): static
+    public function setDescription(?string $description): static
     {
         $this->description = $description;
 
@@ -93,92 +85,74 @@ class Bike
         return $this;
     }
 
-    public function getModelId(): ?Model
+    public function getImage(): ?string
     {
-        return $this->model_id;
+        return $this->image;
     }
 
-    public function setModelId(?Model $model_id): static
+    public function setImage(string $image): static
     {
-        $this->model_id = $model_id;
+        $this->image = $image;
 
         return $this;
     }
 
-    public function getBrandId(): ?Brand
+    public function getModel(): ?Model
     {
-        return $this->brand_id;
+        return $this->model;
     }
 
-    public function setBrandId(?Brand $brand_id): static
+    public function setModel(?Model $model): static
     {
-        $this->brand_id = $brand_id;
+        $this->model = $model;
 
         return $this;
     }
 
-    public function getCylendersId(): ?Cylenders
+    public function getBrand(): ?Brand
     {
-        return $this->cylenders_id;
+        return $this->brand;
     }
 
-    public function setCylendersId(?Cylenders $cylenders_id): static
+    public function setBrand(?Brand $brand): static
     {
-        $this->cylenders_id = $cylenders_id;
+        $this->brand = $brand;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, places>
-     */
-    public function getPlaces(): Collection
+    public function getType(): ?Type
     {
-        return $this->places;
+        return $this->type;
     }
 
-    public function addPlace(Places $place): static
+    public function setType(?Type $type): static
     {
-        if (!$this->places->contains($place)) {
-            $this->places->add($place);
-        }
+        $this->type = $type;
 
         return $this;
     }
 
-    public function removePlace(Places $place): static
+    public function getCylender(): ?Cylender
     {
-        $this->places->removeElement($place);
+        return $this->cylender;
+    }
+
+    public function setCylender(?Cylender $cylender): static
+    {
+        $this->cylender = $cylender;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Image>
-     */
-    public function getImages(): Collection
+    public function getPlace(): ?Place
     {
-        return $this->images;
+        return $this->place;
     }
 
-    public function addImage(Image $image): static
+    public function setPlace(?Place $place): static
     {
-        if (!$this->images->contains($image)) {
-            $this->images->add($image);
-            $image->setBikeId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(Image $image): static
-    {
-        if ($this->images->removeElement($image)) {
-            // set the owning side to null (unless already changed)
-            if ($image->getBikeId() === $this) {
-                $image->setBikeId(null);
-            }
-        }
+        $this->place = $place;
 
         return $this;
     }
